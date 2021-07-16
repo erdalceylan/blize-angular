@@ -1,0 +1,28 @@
+<div class="container">
+  <div class="content">
+    <div class="input-wrapper">
+      <i class="mdi mdi-magnify"></i>
+      <input
+        placeholder="Search"
+        autocomplete="off"
+        [(ngModel)]="input"
+        [ngModelOptions]="{standalone: true}">
+    </div>
+    <div class="users">
+      <ng-template ngFor let-user [ngForOf]="users" >
+        <a class="user" routerLink="/profile/{{user.username}}">
+          <div class="circle-avatar" attr.data-first-chars="{{user?.firstChar()}}">
+            <ng-template [ngIf]="!user?.image">{{user?.nameShort()}}</ng-template>
+            <ng-template [ngIf]="user?.image">
+              <img [src]="ss.API_IMAGE_PREFIX + user?.image" alt=""/>
+            </ng-template>
+          </div>
+          <div class="info">
+            <span>{{user.firstName}} {{user.lastName}}</span>
+            <small>@{{user.username}}</small>
+          </div>
+        </a>
+      </ng-template>
+    </div>
+  </div>
+</div>

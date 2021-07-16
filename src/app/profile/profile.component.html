@@ -1,0 +1,97 @@
+<div class="container">
+  <div class="profile-header">
+    <div class="flex flex-col shadow bg-card">
+      <div class="top-image-wrapper">
+        <img src="http://angular-material.fusetheme.com/assets/images/pages/profile/cover.jpg">
+      </div>
+      <div class="bottom-line">
+        <div class="circle-avatar" attr.data-first-chars="{{user?.firstChar()}}">
+          <ng-template [ngIf]="!user?.image">{{user?.nameShort()}}</ng-template>
+          <ng-template [ngIf]="user?.image">
+            <img [src]="ss.API_IMAGE_PREFIX + user?.image" alt=""/>
+          </ng-template>
+        </div>
+        <div class="info-text">
+          <div class="info-text-title">{{user?.firstName}} {{user?.lastName}}</div>
+          <div class="info-text-subtitle">@{{user?.username}}</div>
+        </div>
+        <div class="separator"></div>
+        <a class="chat-link" routerLink="/messages/{{user?.id}}">
+          <i class="mdi mdi-chat-processing-outline"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="profile-content">
+    <div class="left-content">
+      <div class="sub-info">
+        <div class="sub-info-title">About Me</div>
+        <div class="sub-info-content">
+          Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+          Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+          when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+        </div>
+        <div class="sub-info-item">
+          <i class="mdi mdi-map-marker"></i>
+          London, UK
+        </div>
+        <div class="sub-info-item">
+          <i class="mdi mdi-briefcase-variant"></i>
+          PATH Corp., PHP Developer
+        </div>
+        <div class="sub-info-item">
+          <i class="mdi mdi-cake-variant"></i>
+          April, 15
+        </div>
+      </div>
+    </div>
+    <div class="right-content">
+      <div class="feeds">
+        <div class="feed">
+          <div class="header">
+            <img src="https://pbs.twimg.com/profile_images/1287562748562309122/4RLk5A_U_x96.jpg"/>
+            <div>
+              <span>Erdal Ceylan</span>
+              <small>@erdalceylan</small>
+            </div>
+            <button><i class="mdi mdi-dots-vertical"></i></button>
+          </div>
+          <div class="content">
+            <p class="text-wrapper">
+              “No one ever made a decision because of a number. They need a story.” — Daniel Kahneman
+            </p>
+            <div class="media-wrapper">
+              <div class="media-image">
+                <img src="https://images.unsplash.com/photo-1512054502232-10a0a035d672?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=80" alt="">
+              </div>
+            </div>
+          </div>
+          <div class="footer">
+            <div class="actions">
+              <button>
+                <i class="mdi mdi-heart"></i>
+              </button>
+              <button>
+                <i class="mdi mdi-chat"></i>
+              </button>
+            </div>
+            <b>169 likes</b>
+            <div class="posts">
+              <div class="post">
+                <b>Tijen Karakaş</b>
+                <span>Hi there I like this picture</span>
+              </div>
+
+              <a>49 Posts Show All</a>
+            </div>
+            <div class="input-wrapper">
+              <input placeholder="Add a comment" />
+              <button>Post</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

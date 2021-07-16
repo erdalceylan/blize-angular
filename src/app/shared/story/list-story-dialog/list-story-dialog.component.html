@@ -1,0 +1,8 @@
+<i (click)="close()">kapat</i>
+<swiper effect="cube" #cube>
+  <ng-container *ngFor="let x of stories;">
+    <ng-template swiperSlide>
+      <app-cube-face></app-cube-face>
+    </ng-template>
+  </ng-container>
+</swiper>

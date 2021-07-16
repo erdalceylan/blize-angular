@@ -1,0 +1,74 @@
+<div class="container">
+  <div class="header">
+    <div class="circle-avatar"
+         attr.data-first-chars="{{getTo()?.firstChar()}}">
+      <ng-template [ngIf]="!getTo()?.image">{{getTo()?.nameShort()}}</ng-template>
+      <img *ngIf="getTo()?.image"
+        [src]="ss.API_IMAGE_PREFIX + getTo()?.image" alt=""/>
+    </div>
+    <a routerLink="/profile/{{getTo()?.username}}" class="central">
+      <div class="name">{{getTo()?.firstName}} {{getTo()?.lastName}}</div>
+      <div class="username">
+        @{{getTo()?.username}}
+        <span class="animate-typing" *ngIf="getTo()?.isTyping()">
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </span>
+      </div>
+    </a>
+    <ul class="actions">
+      <li>
+        <a><i class="mdi mdi-phone"></i></a>
+      </li>
+      <li>
+        <a><i class="mdi mdi-video"></i></a>
+      </li>
+      <li>
+        <a><i class="mdi mdi-dots-vertical"></i></a>
+      </li>
+    </ul>
+  </div>
+  <div class="chat-container">
+    <div class="scroll" #scrollContent >
+      <div class="items">
+        <div class="item"
+             *ngFor="let message of messages"
+             [ngClass]="{'me' : usersService.session?.id == message.from?.id}">
+          <div class="item-wrapper">
+            <div class="circle-avatar" attr.data-first-chars="{{message.from?.firstChar()}}">
+              <ng-template [ngIf]="!message.from?.image">{{message.from?.nameShort()}}</ng-template>
+              <img *ngIf="message.from?.image"
+                   [src]="ss.API_IMAGE_PREFIX + message.from?.image" alt=""/>
+            </div>
+            <div class="text-wrapper">
+              {{message.text}}
+              <span class="time">
+                <i class="mdi mdi-check-all"
+                   *ngIf="usersService.session?.id == message.from?.id"
+                   [ngClass]="{'read' : message.read}"></i>
+                {{message.date|date:'HH:mm'}}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <form (ngSubmit)="send()">
+    <div class="input-wrapper">
+      <button class="microphone"><i class="mdi mdi-microphone-outline"></i></button>
+      <input
+        type="text"
+        (input)="onInput()"
+        [(ngModel)]="input"
+        [ngModelOptions]="{standalone: true}"
+        placeholder="Type your message...." />
+      <button class="paperclip"><i class="mdi mdi-paperclip"></i></button>
+      <button class="image"><i class="mdi mdi-image-outline"></i></button>
+    </div>
+    <button class="submit">
+      <i class="mdi mdi-send"></i>
+    </button>
+  </form>
+</div>

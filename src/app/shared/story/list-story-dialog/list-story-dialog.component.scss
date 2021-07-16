@@ -1,0 +1,23 @@
+::ng-deep{
+  .story-dialog-panel{
+    width: 100%;
+    height: 100%;
+    position: initial!important;
+    max-width: initial!important;
+    .mat-dialog-container{
+      border-radius: 0;
+      background-color: var(--bg-color-1);
+      padding: 0;
+    }
+  }
+}
+:host{
+  display: flex;
+  width: 100%;
+  height: 100%;
+  swiper{
+    width: 600px;
+    max-width: 100%;
+    height: 100%;
+  }
+}

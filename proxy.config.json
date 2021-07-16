@@ -1,0 +1,11 @@
+{
+  "/proxy-server/*": {
+    "target": "http://blize.com.local",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/proxy-server": ""
+    }
+  }
+}

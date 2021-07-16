@@ -1,0 +1,12 @@
+<swiper effect="fade"
+        #swiper
+        (slideChange)="onProgress($event)"
+        [autoplay]="{delay: 10000, stopOnLastSlide: true}"
+        [allowTouchMove]="false"
+        (tap)="tap($event, swiper)">
+  <ng-container *ngFor="let story of stories;">
+    <ng-template swiperSlide>
+      <img src="{{story}}" (press)="press($event)" (pressup)="pressup($event)" (contextmenu)="disableContext($event)">
+    </ng-template>
+  </ng-container>
+</swiper>

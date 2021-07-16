@@ -1,0 +1,51 @@
+<div class="content">
+  <div class="input-wrapper">
+    <i class="mdi mdi-magnify"></i>
+    <input
+      placeholder="Search"
+      autocomplete="off"
+      [(ngModel)]="input"
+      [ngModelOptions]="{standalone: true}">
+  </div>
+  <div class="group-label">TEAM</div>
+  <div class="items">
+    <ng-template ngFor let-message [ngForOf]="messages" >
+      <a *ngIf="filterByInput(message)"
+         [routerLink]="['' + getOther(message)?.id]"
+         routerLinkActive="active">
+        <div class="time">{{message.date|date: 'EEE HH:mm'}}</div>
+        <div class="circle-avatar"
+             attr.data-first-chars="{{getOther(message)?.firstChar()}}">
+          <ng-template [ngIf]="!getOther(message)?.image">{{getOther(message)?.nameShort()}}</ng-template>
+          <ng-template [ngIf]="getOther(message)?.image">
+            <img [src]="ss.API_IMAGE_PREFIX + getOther(message)?.image" alt=""/>
+          </ng-template>
+        </div>
+        <div class="central">
+          <div class="name">
+            {{getOther(message)?.firstName}} {{getOther(message)?.lastName}}
+            <span class="animate-typing" *ngIf="getOther(message)?.isTyping()">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </span>
+          </div>
+          <div class="text">
+            <i class="mdi mdi-check-all"
+               [ngClass]="{'read' : message.read}"
+               *ngIf="message?.from?.id === usersService?.session?.id"></i>
+            {{message.text}}
+          </div>
+        </div>
+        <div class="counter" *ngIf="message?.unReadCount">
+          {{message?.unReadCount}}
+        </div>
+      </a>
+    </ng-template>
+
+  </div>
+</div>
+<div class="router-area">
+  <router-outlet></router-outlet>
+</div>
+

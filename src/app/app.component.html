@@ -1,0 +1,56 @@
+
+<div class="menu">
+  <a routerLink="/dashboard" class="logo">
+    <svg
+      class="w-10 h-10"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24">
+      <path fill="none" d="M0 0h24v24H0z"/>
+      <path d="M4.929 19.071A9.969 9.969 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10H2l2.929-2.929zM11 6v12h2V6h-2zM7 9v6h2V9H7zm8 0v6h2V9h-2z" fill="rgba(114,105,239,1)"/></svg>
+  </a>
+  <!--first menu-->
+  <ul class="start">
+    <li>
+      <a routerLink="/dashboard" routerLinkActive="active">
+        <span><i class="mdi mdi-home-outline"></i></span>
+      </a>
+    </li>
+    <li>
+      <a routerLink="/messages" routerLinkActive="active">
+        <span><i class="mdi mdi-chat-processing-outline"></i></span>
+      </a>
+    </li>
+    <li>
+      <a routerLink="/search" routerLinkActive="active">
+        <span><i class="mdi mdi-account-group-outline"></i></span>
+      </a>
+    </li>
+  </ul>
+
+  <!--end menu-->
+  <ul class="end">
+    <li>
+      <a>
+        <span><i class="mdi mdi-tune"></i></span>
+      </a>
+    </li>
+    <li>
+      <a (click)="toggleTheme()">
+        <span>
+          <i [ngClass]="{'mdi-lightbulb-off-outline' : theme === '', 'mdi-lightbulb-on-outline' : theme !== ''}"
+            class="mdi"></i>
+        </span>
+      </a>
+    </li>
+    <li>
+      <a class="circle-avatar" attr.data-first-chars="{{userService.session?.firstChar()}}">
+        <ng-template [ngIf]="!userService?.session?.image">{{userService.session?.nameShort()}}</ng-template>
+        <ng-template [ngIf]="userService?.session?.image">
+          <img [src]="ss.API_IMAGE_PREFIX + userService?.session?.image" alt=""/>
+        </ng-template>
+      </a>
+    </li>
+  </ul>
+</div>
+
+<router-outlet></router-outlet>
