@@ -6,7 +6,7 @@ var exec = require('child_process').exec;
 var crypto = require('crypto');
 var fs = require('fs');
 
-var ROOT_PROJECT = '../php-blize';
+var ROOT_PROJECT = '../blize-php';
 var ROOT_PROJECT_DIST = ROOT_PROJECT + '/public/dist/';
 var ROOT_FILE_ENV =  ROOT_PROJECT + '/.env';
 var ROOT_PROJECT_INDEX = ROOT_PROJECT + '/templates/dashboard/index.html.twig';
