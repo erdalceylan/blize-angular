@@ -56,7 +56,6 @@ var dir = exec("npm run-script build", {maxBuffer: 1024 * 1024 * 500}, function 
 
   }
 
-
   // HATA VARSA EKSRANA BAS
   if (err) {
     console.log(err);
