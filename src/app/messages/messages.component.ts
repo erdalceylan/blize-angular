@@ -20,6 +20,7 @@ export class MessagesComponent implements OnInit{
   messages: Message[] = [];
   selectedUser: User | undefined;
   input = '';
+  groupListLoading = false;
 
   constructor(
     public ss: StaticService,
@@ -31,10 +32,9 @@ export class MessagesComponent implements OnInit{
     ) { }
 
   ngOnInit(): void {
-    this.messagesService.getGroupList().subscribe((messages) => {
-      this.messages = messages.map(m => plainToClass(Message, m));
-      this.sortMessages();
-    });
+    this.messages = [];
+    this.groupListLoading = false;
+    this.getGroupList();
 
     this.socketService.onTyping.subscribe((data) => {
       this.messages.forEach((message) => {
@@ -101,6 +101,18 @@ export class MessagesComponent implements OnInit{
         this.messages.push(message);
       }
       this.sortMessages();
+    });
+  }
+
+  getGroupList(): void {
+    if (this.groupListLoading) {
+      return;
+    }
+    this.groupListLoading = true;
+    this.messagesService.getGroupList(this.messages.length).subscribe((messages) => {
+      this.messages = this.messages.concat( messages.map(m => plainToClass(Message, m)));
+      this.sortMessages();
+      this.groupListLoading = false;
     });
   }
 

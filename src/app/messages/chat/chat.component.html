@@ -30,7 +30,7 @@
     </ul>
   </div>
   <div class="chat-container">
-    <div class="scroll" #scrollContent >
+    <div class="scroll" #scrollContent infiniteScroll  (scrolledUp)="getData()" [scrollWindow]="false">
       <div class="items">
         <div class="item"
              *ngFor="let message of messages"

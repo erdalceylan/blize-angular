@@ -4,8 +4,6 @@ import { SearchComponent } from './search.component';
 import {SearchRoutingModule} from './search-routing.module';
 import {FormsModule} from '@angular/forms';
 
-
-
 @NgModule({
   declarations: [SearchComponent],
   imports: [

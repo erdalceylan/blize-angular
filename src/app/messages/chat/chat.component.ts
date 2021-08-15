@@ -22,6 +22,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   messages: Message[] = [];
   input = '';
   routerSubscription: Subscription;
+  listLoading: boolean = false;
 
   constructor(
     private router: Router,
@@ -35,6 +36,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.routerSubscription = this.router.events.subscribe((e) => {
       if (e instanceof NavigationEnd) {
         this.messages = [];
+        this.listLoading = false;
         this.getData();
       }
     });
@@ -77,23 +79,29 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   getData(): void {
-
+    if(this.listLoading) {
+      return;
+    }
     const id = this.route.snapshot.paramMap.get('id');
+    const offset: number = this.messages.length;
+    const initial = offset === 0;
+    this.listLoading = true
+    console.log(this.messages.length);
 
-    this.messagesService.getDetail(id)
+    this.messagesService.getDetail(id, offset)
       .subscribe((response) => {
 
         ChatComponent.to = plainToClass(User, response.to);
-        this.messagesPush(
-          response.messages.map(m => plainToClass(Message, m))
-          , true
-        );
-        this.messagesService.read(id)
-          .subscribe(() => {
-            this.eventService.onRead.next({
-              to: this.getTo()
+        this.messagesPush(response.messages.map(m => plainToClass(Message, m)), initial);
+        this.listLoading = false;
+        if (initial) {
+          this.messagesService.read(id)
+            .subscribe(() => {
+              this.eventService.onRead.next({
+                to: this.getTo()
+              });
             });
-          });
+        }
       });
   }
 
