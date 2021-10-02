@@ -37,7 +37,7 @@
     <li>
       <a (click)="toggleTheme()">
         <span>
-          <i [ngClass]="{'mdi-lightbulb-off-outline' : theme === '', 'mdi-lightbulb-on-outline' : theme !== ''}"
+          <i [ngClass]="{'mdi-lightbulb-off-outline' : theme !== '', 'mdi-lightbulb-on-outline' : theme === ''}"
             class="mdi"></i>
         </span>
       </a>

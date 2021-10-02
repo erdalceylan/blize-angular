@@ -85,8 +85,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     const id = this.route.snapshot.paramMap.get('id');
     const offset: number = this.messages.length;
     const initial = offset === 0;
-    this.listLoading = true
-    console.log(this.messages.length);
+    this.listLoading = true;
 
     this.messagesService.getDetail(id, offset)
       .subscribe((response) => {
@@ -140,6 +139,10 @@ export class ChatComponent implements OnInit, OnDestroy {
       to: this.getTo(),
       typing: this.input.length > 0 ? 1 : 0
     });
+  }
+
+  startCall(video: boolean): void {
+    this.eventService.startCall.next({user: this.getTo(), video: video});
   }
 
   scrollToBottom(forceBottom = false): void {

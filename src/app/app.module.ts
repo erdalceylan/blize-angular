@@ -13,6 +13,8 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {AppHttpInterceptorService} from './shared/services/app-http-interceptor.service';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
+import {MatDialogModule} from "@angular/material/dialog";
+import {CallModule} from "./shared/call/call.module";
 
 @NgModule({
   declarations: [
@@ -31,7 +33,9 @@ import {FormsModule} from '@angular/forms';
     MatListModule,
     MatIconModule,
     FormsModule,
-    HammerModule
+    HammerModule,
+    MatDialogModule,
+    CallModule
   ],
   bootstrap: [AppComponent],
   providers: [

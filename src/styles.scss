@@ -8,3 +8,13 @@
 html, body,app-root { display: flex; height: 100%; width: 100%; min-height: 500px; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 app-root{flex-direction: row; -webkit-font-smoothing: antialiased;}
+.call-modal{
+  width: 100%;
+  max-width: 100% !important;
+  height: 100%;
+  mat-dialog-container{
+    background: var(--bg-color-1);
+    border-radius: 0;
+    padding: 0;
+  }
+}

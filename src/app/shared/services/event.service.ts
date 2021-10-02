@@ -9,6 +9,8 @@ import {User} from './users/user';
 export class EventService{
   public onMessage = new Subject<Message>();
   public onRead = new Subject<{to: User|undefined}>();
-  constructor(
-  ) {}
+  public onCall = new Subject<any>();
+  public startCall = new Subject<{user?: User, video: boolean}>();
+
+  constructor() {}
 }

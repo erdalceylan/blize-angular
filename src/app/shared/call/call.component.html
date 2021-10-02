@@ -1,0 +1,61 @@
+<div class="video-wrapper">
+  <div class="video-small-wrapper">
+    <div class="video-small-placeholder">
+      <div class="circle-avatar" attr.data-first-chars="{{userService?.session?.firstChar()}}">
+        <ng-template [ngIf]="!userService?.session?.image">{{userService?.session?.nameShort()}}</ng-template>
+        <img *ngIf="userService?.session?.image"
+             [src]="ss.API_IMAGE_PREFIX + userService?.session?.image" alt=""/>
+      </div>
+    </div>
+    <video class="local-video video-small" #localVideo autoplay [muted]="true"></video>
+  </div>
+  <div class="video-big-placeholder">
+    <div class="circle-avatar" attr.data-first-chars="{{data?.user?.firstChar()}}">
+      <ng-template [ngIf]="!data?.user?.image">{{data?.user?.nameShort()}}</ng-template>
+      <img *ngIf="data?.user?.image"
+           [src]="ss.API_IMAGE_PREFIX + data?.user?.image" alt=""/>
+    </div>
+  </div>
+  <video class="remote-video video-big" #remoteVideo autoplay></video>
+</div>
+<div class="button-wrapper">
+  <ul class="actions">
+    <li>
+      <a class="toggle-local-audio" (click)="toggleLocalStreamAudio()">
+        <i class="mdi"
+           [ngClass]="{'mdi-microphone' : webRtcCallService.getLocalConfig()?.audio, 'mdi-microphone-off' : !webRtcCallService.getLocalConfig()?.audio}"></i>
+      </a>
+    </li>
+    <li>
+      <a class="toggle-local-video" (click)="toggleLocalStreamVideo()">
+        <i class="mdi mdi-video"
+           [ngClass]="{'mdi-video' :webRtcCallService.getLocalConfig()?.video, 'mdi-video-off' : !webRtcCallService.getLocalConfig()?.video}"></i>
+      </a>
+    </li>
+    <li>
+      <a class="toggle-call stop-call"
+         (click)="stop()">
+        <i class="mdi mdi-phone-hangup"></i>
+      </a>
+    </li>
+    <li>
+      <a class="toggle-call start-call"
+         *ngIf="!isCaller() && !isAccepted()"
+         (click)="accept()">
+        <i class="mdi mdi-phone-in-talk"></i>
+      </a>
+    </li>
+    <li>
+      <a class="toggle-remote-audio" (click)="toggleRemoteStreamAudio()">
+        <i class="mdi"
+           [ngClass]="{'mdi-volume-high' : webRtcCallService.getRemoteConfig()?.audio, 'mdi-volume-off' : !webRtcCallService.getRemoteConfig()?.audio}"></i>
+      </a>
+    </li>
+    <li>
+      <a class="toggle-remote-video" (click)="toggleRemoteStreamVideo()">
+        <i class="mdi mdi-eye"
+           [ngClass]="{'mdi-eye' : webRtcCallService.getRemoteConfig()?.video, 'mdi-eye-off' : !webRtcCallService.getRemoteConfig()?.video}"></i>
+      </a>
+    </li>
+  </ul>
+</div>
