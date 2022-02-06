@@ -1,20 +1,18 @@
 <div class="video-wrapper">
   <div class="video-small-wrapper">
     <div class="video-small-placeholder">
-      <div class="circle-avatar" attr.data-first-chars="{{userService?.session?.firstChar()}}">
-        <ng-template [ngIf]="!userService?.session?.image">{{userService?.session?.nameShort()}}</ng-template>
-        <img *ngIf="userService?.session?.image"
-             [src]="ss.API_IMAGE_PREFIX + userService?.session?.image" alt=""/>
-      </div>
+      <app-avatar
+        [url]="userService?.session?.image"
+        [nameShort]="userService?.session?.nameShort()"
+        [firstChar]="userService?.session?.firstChar()"></app-avatar>
     </div>
     <video class="local-video video-small" #localVideo autoplay [muted]="true"></video>
   </div>
   <div class="video-big-placeholder">
-    <div class="circle-avatar" attr.data-first-chars="{{data?.user?.firstChar()}}">
-      <ng-template [ngIf]="!data?.user?.image">{{data?.user?.nameShort()}}</ng-template>
-      <img *ngIf="data?.user?.image"
-           [src]="ss.API_IMAGE_PREFIX + data?.user?.image" alt=""/>
-    </div>
+    <app-avatar
+      [url]="data?.user?.image"
+      [nameShort]="data?.user?.nameShort()"
+      [firstChar]="data?.user?.firstChar()"></app-avatar>
   </div>
   <video class="remote-video video-big" #remoteVideo autoplay></video>
 </div>

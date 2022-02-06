@@ -1,0 +1,106 @@
+::ng-deep{
+  .me-story-dialog-panel{
+    width: 100%;
+    height: 100%;
+    position: initial!important;
+    max-width: initial!important;
+    .mat-dialog-container{
+      border-radius: 0;
+      background-color: var(--bg-color-1);
+      padding: 0;
+    }
+  }
+}
+:host {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  color: var(--color-3);
+  position: relative;
+
+  button.close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 10;
+    outline: transparent;
+    font-size: 2rem;
+  }
+  .area {
+    position: relative;
+    width: min(60vh, 100vw);
+    background-color: var(--bg-color-2);
+    background-image: url('~src/assets/images/undraw_reminders_697p.svg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 80% 80%;
+    .timer{
+      display: flex;
+      width: 100%;
+      position: absolute;
+      top: 1rem;
+      z-index: 2;
+    }
+    .header{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      position: absolute;
+      top: 2rem;
+      left: 2rem;
+      right: 2rem;
+      z-index: 5;
+
+      .central{
+        display: flex;
+        flex-direction: column;
+        margin-left: .75rem;
+        text-shadow: 1px 1px 1px rgb(0 0 0 / 35%), 1px 0 1px rgb(0 0 0 / 35%);
+        .name{
+          font-size: .875rem;
+          line-height: 1.25rem;
+          font-weight: 600;
+          color: white;
+        }
+        .username{
+          font-size: .75rem;
+          line-height: 1.5rem;
+          color: #c7c7c7;
+        }
+      }
+
+      .actions{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-left: auto;
+        color: #c7c7c7;
+        font-size: .75rem;
+        text-shadow: 1px 1px 1px rgb(0 0 0 / 35%), 1px 0 1px rgb(0 0 0 / 35%);
+        button, label{
+          width: 2.5rem;
+          height: 2.5rem;
+          z-index: 1;
+          outline: transparent;
+          border-radius: 50%;
+          background-color: var(--bg-color-3);
+          color: var(--color-4);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          i{
+            font-size: 1.25rem;
+            line-height: 1.75rem;
+            color: #7169ef;
+          }
+        }
+        input{
+          width: 1px;
+          height: 1px;
+          overflow: hidden;
+        }
+      }
+    }
+  }
+}

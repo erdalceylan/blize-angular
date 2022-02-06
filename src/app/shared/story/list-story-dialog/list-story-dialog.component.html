@@ -1,8 +1,25 @@
-<i (click)="close()">kapat</i>
-<swiper effect="cube" #cube>
-  <ng-container *ngFor="let x of stories;">
-    <ng-template swiperSlide>
-      <app-cube-face></app-cube-face>
-    </ng-template>
-  </ng-container>
-</swiper>
+<button class="close" (click)="close()">
+  <i class="mdi mdi-close"></i>
+</button>
+<div
+  #cube
+  class="cube"
+  (pan)="pan($event)"
+  (panend)="panEnd($event)"
+  (contextmenu)="constextmenu($event)"
+  [ngStyle]="{transform: 'translateZ(max(-30vh, -50vw)) rotateY('+cubeRotate+'deg)'}"
+  [ngClass]="[rotateClass]">
+  <ng-template ngFor [ngForOf]="data.stories" let-item let-i="index">
+    <app-cube-face
+      #face
+      class="face"
+      *ngIf="i === (frontIndex -1) || i === (frontIndex) || i === (frontIndex +1)"
+      [item]="item"
+      [index]="i"
+      [frontIndex]="frontIndex"
+      (rotate)="rotate($event)"
+      (imageChange)="imageChange.next($event)"
+      [ngClass]="{prev: face.isPrev(), front: face.isFront(), next: face.isNext()}">
+    </app-cube-face>
+  </ng-template>
+</div>

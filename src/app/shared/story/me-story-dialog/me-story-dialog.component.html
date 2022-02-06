@@ -1,0 +1,41 @@
+<button class="close" (click)="close()">
+  <i class="mdi mdi-close"></i>
+</button>
+<div class="area">
+  <div class="timer">
+    <app-timer-line-item
+      *ngFor="let story of items; let i = index"
+      [pause]="false"
+      [play]="true"
+      [reset]="false"
+      [finish]="false"
+      [timing]="6000"
+      (timeEnd)="timeEnd($event)">
+    </app-timer-line-item>
+  </div>
+  <div class="header">
+    <app-avatar
+      [url]="usersService?.session?.image"
+      [nameShort]="usersService?.session?.nameShort()"
+      [firstChar]="usersService?.session?.firstChar()"></app-avatar>
+    <a class="central">
+      <div class="name">{{usersService?.session?.firstName}} {{usersService?.session?.lastName}}</div>
+      <div class="username">
+        @{{usersService?.session?.username}}
+      </div>
+    </a>
+    <div class="actions">
+      <label for="story-image-input">
+        <i class="mdi mdi-file-image-plus-outline"></i>
+      </label>
+      <input id="story-image-input"
+             type="file"
+             #fileInput accept="image/jpeg"
+             (change)="readImage($event)"
+             (click)="fileInput.value=''">
+      <div>
+        {{getActiveItem()?.date|date:'HH:mm'}}
+      </div>
+    </div>
+  </div>
+</div>

@@ -14,13 +14,17 @@
          [routerLink]="['' + getOther(message)?.id]"
          routerLinkActive="active">
         <div class="time">{{message.date|date: 'EEE HH:mm'}}</div>
-        <div class="circle-avatar"
+        <app-avatar
+          [url]="getOther(message)?.image"
+          [nameShort]="getOther(message)?.nameShort()"
+          [firstChar]="getOther(message)?.firstChar()"></app-avatar>
+<!--        <div class="circle-avatar"
              attr.data-first-chars="{{getOther(message)?.firstChar()}}">
           <ng-template [ngIf]="!getOther(message)?.image">{{getOther(message)?.nameShort()}}</ng-template>
           <ng-template [ngIf]="getOther(message)?.image">
             <img [src]="ss.API_IMAGE_PREFIX + getOther(message)?.image" alt=""/>
           </ng-template>
-        </div>
+        </div>-->
         <div class="central">
           <div class="name">
             {{getOther(message)?.firstName}} {{getOther(message)?.lastName}}

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --host 192.168.1.77 --disable-host-check --proxy-config proxy.config.json",
+    "start": "ng serve --host localhost --disable-host-check --proxy-config proxy.config.json",
     "build": "ng build --prod --output-path dist --deploy-url /dist/ ",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
@@ -20,7 +20,7 @@
     "@angular/platform-browser": "~12.2.0",
     "@angular/platform-browser-dynamic": "~12.2.0",
     "@angular/router": "~12.2.0",
-    "@mdi/font": "^5.9.55",
+    "@mdi/font": "^6.4.95",
     "class-transformer": "^0.3.2",
     "hammerjs": "^2.0.8",
     "ngx-infinite-scroll": "^10.0.1",
@@ -29,7 +29,8 @@
     "socket.io-client": "^3.1.0",
     "swiper": "^6.4.15",
     "tslib": "^2.3.0",
-    "zone.js": "~0.11.4"
+    "zone.js": "~0.11.4",
+    "cropperjs": "^1.5.12"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~12.2.1",

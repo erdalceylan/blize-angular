@@ -15,6 +15,7 @@ import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {MatDialogModule} from "@angular/material/dialog";
 import {CallModule} from "./shared/call/call.module";
+import {AvatarModule} from "./shared/avatar/avatar.module";
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import {CallModule} from "./shared/call/call.module";
     FormsModule,
     HammerModule,
     MatDialogModule,
-    CallModule
+    CallModule,
+    AvatarModule
   ],
   bootstrap: [AppComponent],
   providers: [

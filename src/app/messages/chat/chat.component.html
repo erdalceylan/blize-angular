@@ -1,11 +1,9 @@
 <div class="container">
   <div class="header">
-    <div class="circle-avatar"
-         attr.data-first-chars="{{getTo()?.firstChar()}}">
-      <ng-template [ngIf]="!getTo()?.image">{{getTo()?.nameShort()}}</ng-template>
-      <img *ngIf="getTo()?.image"
-        [src]="ss.API_IMAGE_PREFIX + getTo()?.image" alt=""/>
-    </div>
+    <app-avatar
+      [url]="getTo()?.image"
+      [nameShort]="getTo()?.nameShort()"
+      [firstChar]="getTo()?.firstChar()"></app-avatar>
     <a routerLink="/profile/{{getTo()?.username}}" class="central">
       <div class="name">{{getTo()?.firstName}} {{getTo()?.lastName}}</div>
       <div class="username">
@@ -36,11 +34,10 @@
              *ngFor="let message of messages"
              [ngClass]="{'me' : usersService.session?.id == message.from?.id}">
           <div class="item-wrapper">
-            <div class="circle-avatar" attr.data-first-chars="{{message.from?.firstChar()}}">
-              <ng-template [ngIf]="!message.from?.image">{{message.from?.nameShort()}}</ng-template>
-              <img *ngIf="message.from?.image"
-                   [src]="ss.API_IMAGE_PREFIX + message.from?.image" alt=""/>
-            </div>
+            <app-avatar
+              [url]="message.from?.image"
+              [nameShort]="message.from?.nameShort()"
+              [firstChar]="message.from?.firstChar()"></app-avatar>
             <div class="text-wrapper">
               {{message.text}}
               <span class="time">

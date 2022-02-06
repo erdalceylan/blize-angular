@@ -43,12 +43,10 @@
       </a>
     </li>
     <li>
-      <a class="circle-avatar" attr.data-first-chars="{{userService.session?.firstChar()}}">
-        <ng-template [ngIf]="!userService?.session?.image">{{userService.session?.nameShort()}}</ng-template>
-        <ng-template [ngIf]="userService?.session?.image">
-          <img [src]="ss.API_IMAGE_PREFIX + userService?.session?.image" alt=""/>
-        </ng-template>
-      </a>
+      <app-avatar
+        [url]="userService?.session?.image"
+        [nameShort]="userService.session?.nameShort()"
+        [firstChar]="userService.session?.firstChar()"></app-avatar>
     </li>
   </ul>
 </div>

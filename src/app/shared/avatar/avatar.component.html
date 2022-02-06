@@ -1,0 +1,4 @@
+<ng-template [ngIf]="!url">{{nameShort}}</ng-template>
+<ng-template [ngIf]="url">
+  <img [src]="ss.API_IMAGE_PREFIX + url" alt="{{nameShort}}"/>
+</ng-template>

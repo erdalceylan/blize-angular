@@ -5,12 +5,10 @@
         <img src="http://angular-material.fusetheme.com/assets/images/pages/profile/cover.jpg">
       </div>
       <div class="bottom-line">
-        <div class="circle-avatar" attr.data-first-chars="{{user?.firstChar()}}">
-          <ng-template [ngIf]="!user?.image">{{user?.nameShort()}}</ng-template>
-          <ng-template [ngIf]="user?.image">
-            <img [src]="ss.API_IMAGE_PREFIX + user?.image" alt=""/>
-          </ng-template>
-        </div>
+        <app-avatar
+          [url]="user?.image"
+          [nameShort]="user?.nameShort()"
+          [firstChar]="user?.firstChar()"></app-avatar>
         <div class="info-text">
           <div class="info-text-title">{{user?.firstName}} {{user?.lastName}}</div>
           <div class="info-text-subtitle">@{{user?.username}}</div>

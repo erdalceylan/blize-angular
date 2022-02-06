@@ -32,9 +32,12 @@
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "src/styles.scss"
+              "src/styles.scss",
+              "./node_modules/cropperjs/dist/cropper.min.css"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/cropperjs/dist/cropper.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -42,7 +45,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumError": "2mb"
                 },
                 {
                   "type": "anyComponentStyle",

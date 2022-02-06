@@ -15,9 +15,51 @@
   display: flex;
   width: 100%;
   height: 100%;
-  swiper{
-    width: 600px;
-    max-width: 100%;
+  justify-content: center;
+  perspective: min(240vh, 400vw);
+  color: var(--color-3);
+  button.close{
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 10;
+    outline: transparent;
+    font-size: 2rem;
+  }
+  .cube{
+    position: relative;
+    width: min(60vh, 100vw);
     height: 100%;
+    transform-style: preserve-3d;
+    transform: translateZ(max(-30vh, -50vw));
+
+    &.rotate-left{
+      transition: transform .4s ease-out;
+      transform: translateZ(max(-30vh, -50vw)) rotateY(90deg) !important;
+    }
+    &.rotate-right{
+      transition: transform .4s ease-out;
+      transform: translateZ(max(-30vh, -50vw)) rotateY(-90deg) !important;
+    }
+    &.rotate-reset{
+      transition: transform .4s ease-out;
+      transform: translateZ(max(-30vh, -50vw)) rotateY(0deg) !important;
+    }
+
+    .face{
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      &.prev{
+        transform: rotateY(-90deg) translateZ(min(30vh, 50vw));
+      }
+      &.front{
+        transform: rotateY(0deg) translateZ(min(30vh, 50vw));
+      }
+      &.next{
+        transform: rotateY(90deg) translateZ(min(30vh, 50vw));
+      }
+    }
   }
 }
+

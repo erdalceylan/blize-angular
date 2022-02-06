@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CallComponent } from './call.component';
+import {AvatarModule} from "../avatar/avatar.module";
 
 
 
@@ -9,7 +10,8 @@ import { CallComponent } from './call.component';
     CallComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    AvatarModule
   ],
   exports: [CallComponent]
 })

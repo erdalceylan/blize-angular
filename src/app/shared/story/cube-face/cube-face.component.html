@@ -1,12 +1,45 @@
-<swiper effect="fade"
-        #swiper
-        (slideChange)="onProgress($event)"
-        [autoplay]="{delay: 10000, stopOnLastSlide: true}"
-        [allowTouchMove]="false"
-        (tap)="tap($event, swiper)">
-  <ng-container *ngFor="let story of stories;">
-    <ng-template swiperSlide>
-      <img src="{{story}}" (press)="press($event)" (pressup)="pressup($event)" (contextmenu)="disableContext($event)">
-    </ng-template>
-  </ng-container>
-</swiper>
+<div class="timer">
+  <app-timer-line-item
+    *ngFor="let story of item?.items; let i = index"
+    [pause]="isPaused()"
+    [play]="imageIndex==i && isFront()"
+    [reset]="imageIndex < i || !isFront()"
+    [finish]="imageIndex > i"
+    [timing]="6000"
+    (timeEnd)="timeEnd($event)">
+  </app-timer-line-item>
+</div>
+
+<div class="header">
+  <app-avatar
+    [url]="item?.user?.image"
+    [nameShort]="item?.user?.nameShort()"
+    [firstChar]="item?.user?.firstChar()"></app-avatar>
+  <a class="central">
+    <div class="name">{{item?.user?.firstName}} {{item?.user?.lastName}}</div>
+    <div class="username">
+      @{{item?.user?.username}}
+    </div>
+  </a>
+  <div class="actions">{{getActiveItem()?.date|date:'HH:mm'}}</div>
+</div>
+
+<div (press)="pause($event)" (pressup)="unPause($event)" class="image-wrapper">
+  <ng-template ngFor [ngForOf]="item?.items" let-story let-i="index">
+    <img [src]="ss.API_IMAGE_PREFIX + story?.file" [ngClass]="{hidden: i !== imageIndex}" />
+  </ng-template>
+
+  <div class="tap-action-wrapper">
+    <div (tap)="tapLeft($event)"></div>
+    <div (tap)="tapRight($event)"></div>
+  </div>
+</div>
+
+<form (ngSubmit)="sendMessage()">
+  <div class="input-wrapper">
+    <input type="text" placeholder="Type your message...." />
+    <button class="submit">
+      <i class="mdi mdi-send"></i>
+    </button>
+  </div>
+</form>

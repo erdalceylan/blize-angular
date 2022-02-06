@@ -10,6 +10,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {FormsModule} from '@angular/forms';
 import {InfiniteScrollModule} from "ngx-infinite-scroll";
+import {AvatarModule} from "../../shared/avatar/avatar.module";
 
 
 
@@ -25,7 +26,8 @@ import {InfiniteScrollModule} from "ngx-infinite-scroll";
         MatIconModule,
         MatInputModule,
         MatToolbarModule,
-        InfiniteScrollModule
+        InfiniteScrollModule,
+        AvatarModule
     ]
 })
 export class ChatModule { }

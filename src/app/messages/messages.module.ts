@@ -6,6 +6,7 @@ import {MatListModule} from '@angular/material/list';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {FormsModule} from '@angular/forms';
 import {InfiniteScrollModule} from "ngx-infinite-scroll";
+import {AvatarModule} from "../shared/avatar/avatar.module";
 
 
 
@@ -17,7 +18,8 @@ import {InfiniteScrollModule} from "ngx-infinite-scroll";
         MatListModule,
         MatGridListModule,
         FormsModule,
-        InfiniteScrollModule
+        InfiniteScrollModule,
+        AvatarModule
     ]
 })
 export class MessagesModule { }

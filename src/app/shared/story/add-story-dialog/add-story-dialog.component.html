@@ -1,0 +1,21 @@
+<button class="close" (click)="close()">
+  <i class="mdi mdi-close"></i>
+</button>
+<div class="area">
+  <div class="rotate-right" (click)="rotateRight()">
+    <i class="mdi mdi-rotate-right"></i>
+  </div>
+  <div class="rotate-left" (click)="rotateLeft()">
+    <i class="mdi mdi-rotate-left"></i>
+  </div>
+  <img #cropperImage src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" style="height: 100%" />
+  <div class="share" (click)="sendFile()">
+    <app-avatar (click)="sendFile()"
+      [url]="usersService?.session?.image"
+      [nameShort]="usersService?.session?.nameShort()"
+      [firstChar]="usersService?.session?.firstChar()">
+    </app-avatar>
+    <span>Paylaş</span>
+  </div>
+</div>
+

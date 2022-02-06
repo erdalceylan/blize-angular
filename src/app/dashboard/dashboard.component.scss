@@ -17,6 +17,27 @@
     &::-webkit-scrollbar{
       display: none;
     }
+    .me{
+      margin: .25rem;
+      align-self: start;
+      position: relative;
+      cursor: pointer;
+      app-avatar{
+        width: 4.25rem;
+        height: 4.25rem;
+        font-size: 1.25rem;
+      }
+      i{
+        color: #7169ef;
+        font-size: 1.25rem;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        display: inline-block;
+        border-radius: 50%;
+        background-color: var(--bg-color-2);
+      }
+    }
     .story{
       flex-shrink: 0;
       user-select:none;
@@ -26,11 +47,7 @@
         padding: .25rem;
         border-radius: 50%;
         cursor: pointer;
-        .circle-avatar{
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          border-radius: 50%;
+        app-avatar{
           width: 4rem;
           height: 4rem;
           border: 1px solid rgba(128, 128, 128, .5);
