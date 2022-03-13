@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   HTTP_PREFIX: '/proxy-server',
   SELF_PREFIX: '/',
-  SOCKET_URL: 'http://192.168.1.77:3000'
+  SOCKET_URL: 'http://localhost:3000'
 };
 
 /*

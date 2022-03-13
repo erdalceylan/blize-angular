@@ -12,6 +12,7 @@ export class ListStoryDialogComponent implements OnInit {
 
   @ViewChild('cube') public cube?: ElementRef;
   @Output('imageChange') public imageChange = new EventEmitter<Story>();
+  @Output('sendMessage') public sendMessage = new EventEmitter<{story:Story, text: string}>();
   rotateClass: 'rotate-left'|'rotate-right'|'rotate-reset'|'' = '';
   cubeRotate = 0;
   frontIndex = 0;

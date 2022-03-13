@@ -10,6 +10,11 @@
       padding: 0;
     }
   }
+  .story-me-view-bottom-sheet{
+    height: 80vh;
+    background-color: var(--bg-color-1);
+    overflow: hidden;
+  }
 }
 :host {
   display: flex;
@@ -73,32 +78,124 @@
       .actions{
         display: flex;
         flex-direction: row;
-        align-items: center;
         margin-left: auto;
         color: #c7c7c7;
         font-size: .75rem;
         text-shadow: 1px 1px 1px rgb(0 0 0 / 35%), 1px 0 1px rgb(0 0 0 / 35%);
+
         button, label{
           width: 2.5rem;
           height: 2.5rem;
           z-index: 1;
           outline: transparent;
           border-radius: 50%;
-          background-color: var(--bg-color-3);
-          color: var(--color-4);
+          background-color: rgba(100,100,100, .3);
+          color: white;
           display: flex;
           align-items: center;
           justify-content: center;
+          margin-left: .3rem;
+          box-shadow: 0 0 3px rgb(0 0 0 / 35%), 0 0 3px rgb(255 255 255);
+          cursor: pointer;
+          transition: background-color .3s ease-in;
           i{
             font-size: 1.25rem;
             line-height: 1.75rem;
-            color: #7169ef;
+          }
+          &:hover{
+            background-color: rgba(100,100,100, .2) !important;
+          }
+        }
+        label.more{
+          background-color: transparent;
+          box-shadow: initial;
+          i{
+            color: white !important;
+            font-size: 2rem;
           }
         }
         input{
           width: 1px;
           height: 1px;
           overflow: hidden;
+        }
+      }
+    }
+
+    .image-wrapper{
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      .image-item-wrapper{
+        width: 100%;
+        height: 100%;
+        position: relative;
+        &.hidden{
+          visibility: hidden;
+          display: none;
+        }
+        img{
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          user-select: none;
+        }
+        .circle-seer{
+          display: inline-block;
+          position: absolute;
+          bottom: 1rem;
+          left: 1rem;
+          height: 32px;
+          padding-left: 7px;
+          z-index: 1;
+          cursor: pointer;
+
+          div{
+            display: inline-block;
+            position: relative;
+            width: 32px;
+            height: 32px;
+            background-color: var(--bg-color-2);
+            box-shadow: 0 0 5px black;
+            margin-left: -7px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 32px;
+            border: 1px solid white;
+            overflow: hidden;
+            app-avatar{
+              width: 100%;
+              height: 100%;
+            }
+            i{
+              font-size: 30px;
+            }
+          }
+          b{
+            display: inline-block;
+            position: relative;
+            height: 32px;
+            text-shadow: 0 0 5px black;
+            color: white;
+            text-align: center;
+            line-height: 32px;
+            overflow: hidden;
+            padding-left: 0.5rem;
+          }
+        }
+      }
+
+      .tap-action-wrapper{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+        &>div{
+          flex: 1;
         }
       }
     }

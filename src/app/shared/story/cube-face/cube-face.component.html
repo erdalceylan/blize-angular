@@ -35,10 +35,17 @@
   </div>
 </div>
 
-<form (ngSubmit)="sendMessage()">
+<form (ngSubmit)="submitMessage();">
   <div class="input-wrapper">
-    <input type="text" placeholder="Type your message...." />
-    <button class="submit">
+    <input
+      [(ngModel)]="inputMessageModel"
+      [ngModelOptions]="{standalone: true}"
+      type="text"
+      placeholder="Type your message...."
+      (focus)="pause(null)"
+      (focusout)="unPause(null)"/>
+
+    <button class="submit" [disabled]="inputMessageModel.length < 1" >
       <i class="mdi mdi-send"></i>
     </button>
   </div>

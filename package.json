@@ -26,11 +26,12 @@
     "ngx-infinite-scroll": "^10.0.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "~6.6.0",
-    "socket.io-client": "^3.1.0",
+    "socket.io-client": "^4.4.1",
     "swiper": "^6.4.15",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4",
-    "cropperjs": "^1.5.12"
+    "cropperjs": "^1.5.12",
+    "ngx-cookie-service": "^12.0.3"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~12.2.1",

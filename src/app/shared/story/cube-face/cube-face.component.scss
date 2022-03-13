@@ -133,6 +133,9 @@
         line-height: 2rem;
         color: var(--color-1);
       }
+      &:disabled{
+        opacity: .4;
+      }
     }
   }
 

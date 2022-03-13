@@ -19,6 +19,7 @@
       [frontIndex]="frontIndex"
       (rotate)="rotate($event)"
       (imageChange)="imageChange.next($event)"
+      (sendMessage)="sendMessage.next($event)"
       [ngClass]="{prev: face.isPrev(), front: face.isFront(), next: face.isNext()}">
     </app-cube-face>
   </ng-template>

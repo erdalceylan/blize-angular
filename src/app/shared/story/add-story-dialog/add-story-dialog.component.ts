@@ -54,7 +54,6 @@ export class AddStoryDialogComponent implements AfterViewInit {
 
   sendFile() {
    this.cropper?.getCroppedCanvas().toBlob((blop) => {
-      console.log(blop);
       this.dialogRef.close(blop);
     });
 

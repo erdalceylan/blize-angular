@@ -6,6 +6,7 @@ import {StoryModule} from '../shared/story/story.module';
 import {MatDialogModule} from '@angular/material/dialog';
 import {AvatarModule} from "../shared/avatar/avatar.module";
 import {InfiniteScrollModule} from "ngx-infinite-scroll";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 
 
@@ -17,7 +18,8 @@ import {InfiniteScrollModule} from "ngx-infinite-scroll";
     MatDialogModule,
     StoryModule,
     AvatarModule,
-    InfiniteScrollModule
+    InfiniteScrollModule,
+    MatSnackBarModule
   ]
 })
 export class DashboardModule { }

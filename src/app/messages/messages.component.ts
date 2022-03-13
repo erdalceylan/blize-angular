@@ -109,7 +109,7 @@ export class MessagesComponent implements OnInit{
       return;
     }
     this.groupListLoading = true;
-    this.messagesService.getGroupList(this.messages.length).subscribe((messages) => {
+    this.messagesService.groupList(this.messages.length).subscribe((messages) => {
       this.messages = this.messages.concat( messages.map(m => plainToClass(Message, m)));
       this.sortMessages();
       this.groupListLoading = false;

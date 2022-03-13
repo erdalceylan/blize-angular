@@ -4,11 +4,11 @@
 <div class="area">
   <div class="timer">
     <app-timer-line-item
-      *ngFor="let story of items; let i = index"
-      [pause]="false"
-      [play]="true"
-      [reset]="false"
-      [finish]="false"
+      *ngFor="let story of meStories; let i = index"
+      [pause]="_paused"
+      [play]="imageIndex==i"
+      [reset]="imageIndex < i"
+      [finish]="imageIndex > i"
       [timing]="6000"
       (timeEnd)="timeEnd($event)">
     </app-timer-line-item>
@@ -28,6 +28,17 @@
       <label for="story-image-input">
         <i class="mdi mdi-file-image-plus-outline"></i>
       </label>
+      <label [matMenuTriggerFor]="appMenu" class="more">
+        <i class="mdi mdi-dots-vertical"></i>
+      </label>
+      <mat-menu #appMenu="matMenu">
+        <ng-template matMenuContent>
+          <button mat-menu-item (click)="delete(imageIndex)">
+            <i class="mdi mdi-delete"></i>
+            Sil
+          </button>
+        </ng-template>
+      </mat-menu>
       <input id="story-image-input"
              type="file"
              #fileInput accept="image/jpeg"
@@ -36,6 +47,32 @@
       <div>
         {{getActiveItem()?.date|date:'HH:mm'}}
       </div>
+    </div>
+  </div>
+
+  <div (press)="pause($event)" (pressup)="unPause($event)" class="image-wrapper">
+    <ng-template ngFor [ngForOf]="meStories" let-story let-i="index">
+      <div class="image-item-wrapper" [ngClass]="{hidden: i !== imageIndex}">
+        <img [src]="ss.API_IMAGE_PREFIX + story.file"  />
+
+        <div class="circle-seer" (click)="openBottomSheet(story)">
+          <div *ngFor="let empty of createEmptyArray(3 - (story?.views?.length ?? 0))">
+            <i class="mdi mdi-account"></i>
+          </div>
+          <div *ngFor="let viewItem of story.views">
+            <app-avatar
+              [url]="viewItem?.user?.image"
+              [nameShort]="viewItem?.user?.nameShort()"
+              [firstChar]="viewItem?.user?.firstChar()"></app-avatar>
+          </div>
+          <b *ngIf="story.viewsLength">{{story.viewsLength}} views</b>
+        </div>
+      </div>
+    </ng-template>
+
+    <div class="tap-action-wrapper">
+      <div (tap)="tapLeft($event)"></div>
+      <div (tap)="tapRight($event)"></div>
     </div>
   </div>
 </div>

@@ -7,4 +7,11 @@ export class StoryGroup {
   user?: User;
   @Type(() => Story)
   items?: Story[];
+
+  get seen (): boolean {
+    if (this.items) {
+      return this.items?.every((item:Story)=> item.seen);
+    }
+    return false;
+  }
 }

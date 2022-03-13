@@ -1,9 +1,10 @@
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs";
 import {environment} from "../../../../environments/environment";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {StoryGroup} from "./storyGroup";
 import {Story} from "./story";
+import {StoryViewItem} from "./StoryViewItem";
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,17 @@ import {Story} from "./story";
 export class StoryService{
   constructor(public http: HttpClient) { }
 
-  list(offset:number|string): Observable<StoryGroup[]> {
-    return this.http.get<StoryGroup[]>(environment.HTTP_PREFIX + '/story/list/'+offset);
+  groupList(offset:number|string): Observable<StoryGroup[]> {
+    return this.http.get<StoryGroup[]>(environment.HTTP_PREFIX + '/story/group-list/'+offset);
+  }
+
+  meList(): Observable<StoryGroup[]> {
+    return this.http.get<StoryGroup[]>(environment.HTTP_PREFIX + '/story/me-list');
+  }
+
+  viewList(story?: Story, offset?: number): Observable<StoryViewItem[]> {
+
+    return this.http.get<any>(environment.HTTP_PREFIX + '/story/view-list/'+story?.id+'/'+offset);
   }
 
   add(blob: Blob): Observable<Story> {
@@ -27,5 +37,10 @@ export class StoryService{
   seen(story: Story): Observable<any> {
 
     return this.http.get<any>(environment.HTTP_PREFIX + '/story/seen/'+story.id);
+  }
+
+  delete(storyId: string): Observable<any> {
+
+    return this.http.get<any>(environment.HTTP_PREFIX + '/story/delete/'+storyId);
   }
 }

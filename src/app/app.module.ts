@@ -16,6 +16,7 @@ import {FormsModule} from '@angular/forms';
 import {MatDialogModule} from "@angular/material/dialog";
 import {CallModule} from "./shared/call/call.module";
 import {AvatarModule} from "./shared/avatar/avatar.module";
+import {CookieService} from "ngx-cookie-service";
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import {AvatarModule} from "./shared/avatar/avatar.module";
       provide : HTTP_INTERCEPTORS,
       useClass: AppHttpInterceptorService,
       multi   : true,
-    }
+    },
+    CookieService
   ]
 })
 export class AppModule { }

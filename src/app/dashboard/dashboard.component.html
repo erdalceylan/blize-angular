@@ -14,7 +14,7 @@
     </div>
     <div class="story" *ngFor="let s of stories"
          (click)="clickStoryItem(s)">
-      <div class="rounded">
+      <div class="rounded" [ngClass]="{seen: s.seen}">
         <ng-template [ngIf]="!s?.user?.image">
           <app-avatar
             [url]="s?.user?.image"

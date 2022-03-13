@@ -7,6 +7,7 @@ import {plainToClass, Type} from 'class-transformer';
 import {User} from './users/user';
 import {environment} from 'src/environments/environment';
 import {Call} from "./call/call";
+import {CookieService} from "ngx-cookie-service";
 
 @Injectable({
   providedIn: 'root'
@@ -22,13 +23,22 @@ export class SocketService{
   public onAnswer = new Subject<AnswerEventData>();
   public onCandidate = new Subject<any>();
   public onCallEnd = new Subject<Call>();
+  private socketUrl = environment.SOCKET_URL;
   constructor(
-    public usersService: UsersService
+    public usersService: UsersService,
+    private cookieService: CookieService
   ) {}
 
   init(): void {
 
-    this.socket = io(environment.SOCKET_URL);
+    if(this.cookieService.check('socket-connection-url')) {
+      this.socketUrl = this.cookieService.get('socket-connection-url');
+      this.cookieService.delete('socket-connection-url');
+    }
+
+    this.socket = io(this.socketUrl,{
+      transports: ['websocket']
+    });
     this.socket.on('connect', () => {
       this.usersService.jwt()
         .subscribe((response) => {
@@ -75,6 +85,8 @@ export class SocketService{
       this.socket.connect();
     });
   }
+
+
 }
 
 export class ReadEventData{

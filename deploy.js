@@ -33,6 +33,7 @@ var dir = exec("npm run-script build", {maxBuffer: 1024 * 1024 * 500}, function 
     //.env içine ANGULAR_HASH değişkenini yazdır
     var envFile = fs.readFileSync(ROOT_FILE_ENV, 'utf8');
     var hashLine = envFile.match(/(^|\n)ANGULAR_HASH(\s+|)=.*/)[0];
+    fs.writeFileSync("./dist/ANGULAR_HASH.txt", md5Hex);
 
     fs.writeFileSync(
       ROOT_FILE_ENV,

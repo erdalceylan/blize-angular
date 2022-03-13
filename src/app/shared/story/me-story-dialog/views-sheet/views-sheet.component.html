@@ -1,0 +1,20 @@
+<div class="sheet-header">
+  <button class="close" (click)="close()">
+    <i class="mdi mdi-close"></i>
+  </button>
+</div>
+<div class="views" infiniteScroll (scrolled)="loadViews(storyMeItem)" [scrollWindow]="false">
+  <ng-template ngFor let-view [ngForOf]="views" >
+    <a class="user" href="/profile/{{view.user?.username}}" target="_blank">
+      <app-avatar
+        [url]="view.user?.image"
+        [nameShort]="view.user?.nameShort()"
+        [firstChar]="view.user?.firstChar()"></app-avatar>
+      <div class="user-info">
+        <span>{{view.user?.firstName}} {{view.user?.lastName}}</span>
+        <small>@{{view.user?.username}}</small>
+      </div>
+      <div class="view-date">{{view.date|date:'HH:mm'}}</div>
+    </a>
+  </ng-template>
+</div>

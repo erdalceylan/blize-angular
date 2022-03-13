@@ -47,6 +47,9 @@
         padding: .25rem;
         border-radius: 50%;
         cursor: pointer;
+        &.seen{
+          background: darkgray !important;
+        }
         app-avatar{
           width: 4rem;
           height: 4rem;

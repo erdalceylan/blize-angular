@@ -10,16 +10,13 @@ import {User} from '../users/user';
 })
 export class MessagesService {
 
-  static GROUP_LIMIT = 24;
-  static DETAIL_LIMIT = 24;
-
   constructor(public http: HttpClient) { }
 
-  getGroupList(offset: number = 0): Observable<Message[]> {
-    return this.http.get<Message[]>(environment.HTTP_PREFIX + '/messages/group/' + offset);
+  groupList(offset: number = 0): Observable<Message[]> {
+    return this.http.get<Message[]>(environment.HTTP_PREFIX + '/messages/group-list/' + offset);
   }
 
-  getDetail(id: any, offset : number = 0): Observable<{messages: Message[], to: User}> {
+  detail(id: any, offset : number = 0): Observable<{messages: Message[], to: User}> {
     return this.http.get<{messages: Message[], to: User}>(environment.HTTP_PREFIX + '/messages/detail/' + id + '/' + offset);
   }
 

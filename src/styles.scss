@@ -16,3 +16,10 @@ app-root{flex-direction: row; -webkit-font-smoothing: antialiased;}
     padding: 0;
   }
 }
+.mat-menu-panel{
+  background: var(--bg-color-1);
+  color: var(--color-1);
+  .mat-menu-item{
+    color: var(--color-1);
+  }
+}

@@ -14,9 +14,11 @@ export class CubeFaceComponent implements OnInit,AfterViewInit {
   private _index = 0;
   private _frontIndex = 0;
   private _paused = false;
+  public inputMessageModel = '';
 
   @Output('rotate') public rotate = new EventEmitter<'right' | 'left'>();
   @Output('imageChange') public imageChange = new EventEmitter<Story>();
+  @Output('sendMessage') public sendMessage = new EventEmitter<{story:Story, text: string}>();
   @Input('item') public item?: StoryGroup;
   @Input('index') public set index(value: number) {
     this._index = value;
@@ -54,10 +56,10 @@ export class CubeFaceComponent implements OnInit,AfterViewInit {
   }
 
   set imageIndex(value: number) {
+    this._imageIndex = value;
     if(this.isFront()) {
       this.imageChange.next(this.getActiveItem());
     }
-    this._imageIndex = value;
   }
 
   isFront(): boolean {
@@ -81,10 +83,6 @@ export class CubeFaceComponent implements OnInit,AfterViewInit {
   }
 
   tapRight(e:any) {
-    console.log({
-      'isOnLast' : this.isOnLast(),
-      'imageIndex':this.imageIndex
-  });
     if (this.isOnLast()) {
       this.rotateCube('right');
     } else {
@@ -94,11 +92,7 @@ export class CubeFaceComponent implements OnInit,AfterViewInit {
 
   pause(e:any) {
     this._paused = true;
-    e.srcEvent.stopPropagation();
-    this.item?.items?.forEach((x) => {
-      console.log(x);
-      console.log(x.file);
-    })
+    e?.srcEvent?.stopPropagation();
   }
 
   unPause(e:any) {
@@ -120,8 +114,13 @@ export class CubeFaceComponent implements OnInit,AfterViewInit {
     return true;
   }
 
-  sendMessage() {
+  submitMessage() {
+    const activeItem = this.getActiveItem();
 
+    if(activeItem instanceof Story && this.inputMessageModel) {
+      this.sendMessage.next({story: activeItem, text: this.inputMessageModel});
+      this.inputMessageModel = '';
+    }
   }
 
   getActiveItem() {

@@ -87,7 +87,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     const initial = offset === 0;
     this.listLoading = true;
 
-    this.messagesService.getDetail(id, offset)
+    this.messagesService.detail(id, offset)
       .subscribe((response) => {
 
         ChatComponent.to = plainToClass(User, response.to);
