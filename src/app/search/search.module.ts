@@ -4,6 +4,7 @@ import { SearchComponent } from './search.component';
 import {SearchRoutingModule} from './search-routing.module';
 import {FormsModule} from '@angular/forms';
 import {AvatarModule} from "../shared/avatar/avatar.module";
+import {InfiniteScrollModule} from "ngx-infinite-scroll";
 
 @NgModule({
   declarations: [SearchComponent],
@@ -11,7 +12,8 @@ import {AvatarModule} from "../shared/avatar/avatar.module";
     CommonModule,
     FormsModule,
     SearchRoutingModule,
-    AvatarModule
+    AvatarModule,
+    InfiniteScrollModule
   ]
 })
 export class SearchModule { }

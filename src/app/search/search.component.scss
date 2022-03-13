@@ -1,10 +1,10 @@
 :host{
-  overflow-x: auto;
   height: auto !important;
   min-height: 100%;
   background-color: var(--bg-color-2);
 
   .container{
+    overflow-x: auto;
     max-width: none;
     display: flex;
     justify-content: center;

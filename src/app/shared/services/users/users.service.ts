@@ -56,7 +56,7 @@ export class UsersService {
     return this.http.post<{ token: string }>(environment.HTTP_PREFIX + '/user/jwt', httpParams);
   }
 
-  search(httpParams?: HttpParams): Observable<User[]>{
-    return this.http.post<User[]>(environment.HTTP_PREFIX + '/search', httpParams);
+  search(httpParams: HttpParams, offset:number): Observable<User[]>{
+    return this.http.post<User[]>(environment.HTTP_PREFIX + '/search/'+offset, httpParams);
   }
 }

@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" infiniteScroll (scrolled)="loadUsers(users.length)" [scrollWindow]="false">
   <div class="content">
     <div class="input-wrapper">
       <i class="mdi mdi-magnify"></i>
