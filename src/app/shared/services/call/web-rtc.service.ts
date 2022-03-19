@@ -15,6 +15,16 @@ export class WebRtcService {
           'stun:stun2.l.google.com:19302',
         ],
       },
+      {
+        // turn server for test https://webrtc.tools
+        // dont use for production
+        username: "2f197a91",
+        credential: "9ff758e9",
+        urls: [
+          "turn:95.217.132.49:80?transport=udp",
+          "turn:95.217.132.49:80?transport=tcp"
+        ]
+      }
     ],
     iceCandidatePoolSize: 10,
   };
@@ -36,33 +46,33 @@ export class WebRtcService {
     };
   }
 
-  public async getOffer(): Promise<RTCSessionDescriptionInit|undefined> {
+  public async getOffer(): Promise<RTCSessionDescriptionInit | undefined> {
 
-    const offer: RTCSessionDescriptionInit|undefined = await this.connection?.createOffer();
+    const offer: RTCSessionDescriptionInit | undefined = await this.connection?.createOffer();
 
     await this.connection?.setLocalDescription(offer);
 
     return offer;
   }
 
-  public async getAnswer(offer: RTCSessionDescriptionInit): Promise<RTCSessionDescriptionInit|undefined> {
+  public async getAnswer(offer: RTCSessionDescriptionInit): Promise<RTCSessionDescriptionInit | undefined> {
 
-      await this.connection?.setRemoteDescription(
-        new RTCSessionDescription(offer)
-      );
+    await this.connection?.setRemoteDescription(
+      new RTCSessionDescription(offer)
+    );
 
-      const answer: RTCSessionDescriptionInit|undefined  = await this.connection?.createAnswer();
+    const answer: RTCSessionDescriptionInit | undefined = await this.connection?.createAnswer();
 
-      await this.connection?.setLocalDescription(answer);
-      return answer;
+    await this.connection?.setLocalDescription(answer);
+    return answer;
   }
 
-  public async setAnswer(answer: RTCSessionDescription): Promise<void>{
-      await this.connection?.setRemoteDescription(
-        new RTCSessionDescription(answer)
-      );
+  public async setAnswer(answer: RTCSessionDescription): Promise<void> {
+    await this.connection?.setRemoteDescription(
+      new RTCSessionDescription(answer)
+    );
 
-      this.answered = true;
+    this.answered = true;
   }
 
   public async addCandidate(candidate: any) {
