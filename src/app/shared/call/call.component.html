@@ -1,5 +1,9 @@
 <div class="video-wrapper">
-  <div class="video-small-wrapper">
+  <div class="video-small-wrapper"
+       (panmove)="moveSmallVideo($event)"
+       (panend)="endMoveSmallVideo($event)"
+       [style.left.px]="smallVideoPosition.left"
+       [style.top.px]="smallVideoPosition.top">
     <div class="video-small-placeholder">
       <app-avatar
         [url]="userService?.session?.image"

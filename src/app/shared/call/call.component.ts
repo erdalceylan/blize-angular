@@ -35,6 +35,7 @@ export class CallComponent implements OnDestroy, AfterViewInit, OnInit {
   private onOfferSubscription?: Subscription;
   private onAcceptSubscription?: Subscription;
   private onEndCallSubscription?: Subscription;
+  public smallVideoPosition = {top:15, left:15, originTop: 15, originLeft: 15};
 
   constructor( public dialogRef: MatDialogRef<CallComponent>,
                @Inject(MAT_DIALOG_DATA) public data:
@@ -173,6 +174,16 @@ export class CallComponent implements OnDestroy, AfterViewInit, OnInit {
     }
 
     this.closed = true;
+  }
+
+  moveSmallVideo(e:any){
+    this.smallVideoPosition.top = this.smallVideoPosition.originTop + e.deltaY;
+    this.smallVideoPosition.left = this.smallVideoPosition.originLeft + e.deltaX;
+  }
+
+  endMoveSmallVideo(e:any){
+    this.smallVideoPosition.originTop  = this.smallVideoPosition.top;
+    this.smallVideoPosition.originLeft = this.smallVideoPosition.left;
   }
 
   ngOnDestroy() {
