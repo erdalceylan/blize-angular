@@ -36,7 +36,8 @@
               "./node_modules/cropperjs/dist/cropper.min.css"
             ],
             "scripts": [
-              "./node_modules/cropperjs/dist/cropper.min.js"
+              "./node_modules/cropperjs/dist/cropper.min.js",
+              "./node_modules/simple-peer/simplepeer.min.js"
             ]
           },
           "configurations": {

@@ -4,6 +4,7 @@ import {SocketService} from "../socket.service";
 import {User} from "../users/user";
 import {WebRtcService} from "./web-rtc.service";
 import {Call} from "./call";
+import {Subscription} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,9 @@ export class WebRtcCallService {
   private remoteVideo?: HTMLVideoElement;
   private call?: Call;
   private accept?: Call;
+  private socketServiceOnSignalSubscription ?: Subscription;
+  private rtcServiceOnSignalSubscription ?: Subscription;
+  private rtcServiceOnStreamSubscription ?: Subscription;
 
   constructor(
     private callService: CallService,
@@ -27,31 +31,29 @@ export class WebRtcCallService {
     private rtcService: WebRtcService
   ) {}
 
-  public async init(
+  public init(
     call?: Call,
     accept?: Call,
   ) {
     this.call = call;
     this.accept = accept;
 
-    this.rtcService.init();
+    this.rtcService.init(this.call?.from?.id === this.me?.id);
 
-    await this.handleStream();
-
-    this.socketService.onAnswer.subscribe( (data:any) => {
-      this.rtcService.setAnswer(data.answer);
+    this.socketServiceOnSignalSubscription = this.socketService.onSignal.subscribe( (data:any) => {
+      if (this.to?.id == data.from?.id || true) {
+        this.rtcService.addSignal(data.signal);
+      }
     });
 
-    this.socketService.onCandidate.subscribe( (data:any) => {
-      this.rtcService.addCandidate(data.candidate);
-    });
-
-    this.rtcService.onCandidate.subscribe((candidate) => {
-      this.socketService.socket.emit('candidate', {
+    this.rtcServiceOnSignalSubscription = this.rtcService.onSignal.subscribe((signal) => {
+      this.socketService.socket.emit('signal', {
         to: this.to,
-        candidate: (candidate.candidate as any).toJSON()
+        signal: JSON.stringify(signal)
       });
     });
+
+    this.handleStream();
   }
 
   public setMe(me?: User): void {
@@ -86,65 +88,34 @@ export class WebRtcCallService {
     this.remoteVideo = remoteVideo;
   }
 
-  public async offer() {
-    if (this.call?.id == this.accept?.id) {
-      const offer = await this.rtcService.getOffer() as any;
-      this.socketService.socket.emit('offer', {
-        to: this.to,
-        offer: offer.toJSON()
-      });
-    }
-  }
-
-  public async answer(offer: any) {
-    if (this.call?.id == this.accept?.id) {
-      const answer = await this.rtcService.getAnswer(offer) as any;
-      this.socketService.socket.emit('answer', {
-        to: this.to,
-        answer: answer.toJSON()
-      });
-    }
-  }
-
-  private async handleStream() {
-
+  private handleStream() {
     this.remoteStream = new MediaStream();
+      this.rtcServiceOnStreamSubscription = this.rtcService.onStream.subscribe((stream) => {
+        stream.getTracks().forEach((track) => {
+          if (track.kind === 'audio') {
+            track.enabled = this.remoteConfig?.audio ?? false;
+          }
+          if (track.kind === 'video') {
+            track.enabled = this.remoteConfig?.video ?? false;
+          }
+          this.remoteStream?.addTrack(track);
+        });
+      });
 
-    this.localStream = await navigator.mediaDevices.getUserMedia({
-      video: true,
-      audio: true,
-    });
-
-    this.rtcService.onTrack.subscribe((tracks) => {
-      tracks.forEach((track) => {
+      this.localStream?.getTracks().forEach((track) => {
         if (track.kind === 'audio') {
-          track.enabled = this.remoteConfig?.audio ?? false;
+          track.enabled = this.localConfig?.audio ?? false;
         }
         if (track.kind === 'video') {
-          track.enabled = this.remoteConfig?.video ?? false;
+          track.enabled = this.localConfig?.video ?? false;
         }
-        this.remoteStream?.addTrack(track);
+        // @ts-ignore
+        this.rtcService.addTrack(track, this.localStream);
       });
-    });
 
-    this.localStream?.getTracks().forEach((track) => {
-      if (track.kind === 'audio') {
-        track.enabled = this.localConfig?.audio ?? false;
+      if (this.remoteVideo) {
+        this.remoteVideo.srcObject = this.remoteStream;
       }
-      if (track.kind === 'video') {
-        track.enabled = this.localConfig?.video ?? false;
-      }
-      // @ts-ignore
-      this.rtcService.addTrack(track, this.localStream);
-    });
-
-    if (this.remoteVideo) {
-      this.remoteVideo.srcObject = this.remoteStream;
-    }
-    if (this.localVideo) {
-      this.localVideo.srcObject = this.localStream;
-    }
-
   }
 
   public updateLocalTracks(config?: {video?: boolean, audio?: boolean}) {
@@ -175,6 +146,17 @@ export class WebRtcCallService {
     }
   }
 
+  public async handleLocaleStream() {
+    this.localStream = await navigator.mediaDevices.getUserMedia({
+      video: true,
+      audio: true,
+    });
+
+    if (this.localVideo) {
+      this.localVideo.srcObject = this.localStream;
+    }
+  }
+
   stop() {
     this.remoteStream?.getTracks().forEach((track: any) => track.stop());
     this.localStream?.getTracks().forEach((track: any) => track.stop());
@@ -187,7 +169,13 @@ export class WebRtcCallService {
     this.remoteVideo = undefined;
     this.call = undefined;
     this.accept = undefined;
-    this.localConfig = undefined;
-    this.remoteConfig = undefined;
+    this.localConfig = {video: true, audio: true};
+    this.remoteConfig = {video: true, audio: true};
+    this.socketServiceOnSignalSubscription?.unsubscribe();
+    this.rtcServiceOnSignalSubscription?.unsubscribe();
+    if (this.rtcServiceOnStreamSubscription) {
+      this.rtcServiceOnStreamSubscription.unsubscribe();
+    }
   }
+
 }

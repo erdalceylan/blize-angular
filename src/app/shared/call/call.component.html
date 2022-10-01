@@ -23,15 +23,15 @@
 <div class="button-wrapper">
   <ul class="actions">
     <li>
-      <a class="toggle-local-audio" (click)="toggleLocalStreamAudio()">
+      <a class="toggle-local-audio" (click)="toggleLocalStream('audio')">
         <i class="mdi"
-           [ngClass]="{'mdi-microphone' : webRtcCallService.getLocalConfig()?.audio, 'mdi-microphone-off' : !webRtcCallService.getLocalConfig()?.audio}"></i>
+           [ngClass]="{'mdi-microphone' : webRtcCallService?.getLocalConfig()?.audio, 'mdi-microphone-off' : !webRtcCallService?.getLocalConfig()?.audio}"></i>
       </a>
     </li>
     <li>
-      <a class="toggle-local-video" (click)="toggleLocalStreamVideo()">
+      <a class="toggle-local-video" (click)="toggleLocalStream('video')">
         <i class="mdi mdi-video"
-           [ngClass]="{'mdi-video' :webRtcCallService.getLocalConfig()?.video, 'mdi-video-off' : !webRtcCallService.getLocalConfig()?.video}"></i>
+           [ngClass]="{'mdi-video' :webRtcCallService?.getLocalConfig()?.video, 'mdi-video-off' : !webRtcCallService?.getLocalConfig()?.video}"></i>
       </a>
     </li>
     <li>
@@ -48,13 +48,13 @@
       </a>
     </li>
     <li>
-      <a class="toggle-remote-audio" (click)="toggleRemoteStreamAudio()">
+      <a class="toggle-remote-audio" (click)="toggleRemoteStream('audio')">
         <i class="mdi"
            [ngClass]="{'mdi-volume-high' : webRtcCallService.getRemoteConfig()?.audio, 'mdi-volume-off' : !webRtcCallService.getRemoteConfig()?.audio}"></i>
       </a>
     </li>
     <li>
-      <a class="toggle-remote-video" (click)="toggleRemoteStreamVideo()">
+      <a class="toggle-remote-video" (click)="toggleRemoteStream('video')">
         <i class="mdi mdi-eye"
            [ngClass]="{'mdi-eye' : webRtcCallService.getRemoteConfig()?.video, 'mdi-eye-off' : !webRtcCallService.getRemoteConfig()?.video}"></i>
       </a>

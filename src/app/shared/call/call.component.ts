@@ -1,12 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  Inject,
-  OnDestroy,
-  OnInit,
-  ViewChild
-} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, HostListener, Inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {CallService} from "../services/call/call.service";
 import {SocketService} from "../services/socket.service";
@@ -27,12 +19,12 @@ export class CallComponent implements OnDestroy, AfterViewInit, OnInit {
 
   @ViewChild('localVideo') localVideo?: ElementRef;
   @ViewChild('remoteVideo') remoteVideo?: ElementRef;
-  private localStream?: MediaStream;
+
   private callData?: Call;
   private acceptData?: Call;
   private accepted = false;
-  private closed = false;
-  private onOfferSubscription?: Subscription;
+  public stopped = false;
+
   private onAcceptSubscription?: Subscription;
   private onEndCallSubscription?: Subscription;
   public smallVideoPosition = {top:15, left:15, originTop: 15, originLeft: 15};
@@ -51,67 +43,62 @@ export class CallComponent implements OnDestroy, AfterViewInit, OnInit {
                public webRtcCallService: WebRtcCallService,
                public userService: UsersService){ }
   ngOnInit() {
+  }
+
+  ngAfterViewInit(): void {
+
     const isVideoCall = !!(this.data.video || this.data?.payload?.video);
 
     this.webRtcCallService.setLocalConfig({video: isVideoCall, audio: true});
     this.webRtcCallService.setRemoteConfig({video: isVideoCall, audio: true});
-  }
-
-  ngAfterViewInit(): void {
+    this.webRtcCallService.setMe(this.userService?.session);
+    this.webRtcCallService.setTo(this.data?.user);
+    this.webRtcCallService.setLocalVideo(this.localVideo?.nativeElement);
+    this.webRtcCallService.setRemoteVideo(this.remoteVideo?.nativeElement);
 
     this.init();
   }
 
   private async init() {
 
-    this.webRtcCallService.setMe(this.userService?.session);
-    this.webRtcCallService.setTo(this.data?.user);
-    this.webRtcCallService.setLocalVideo(this.localVideo?.nativeElement);
-    this.webRtcCallService.setRemoteVideo(this.remoteVideo?.nativeElement);
+    await this.webRtcCallService.handleLocaleStream();
+
+    if (this.data.type == 'call') {
+      this.initTypeCall()
+    }
+
+    if (this.data.type == 'accept') {
+      this.initTypeAccept();
+    }
 
     this.onEndCallSubscription = this.socketService.onCallEnd.subscribe((callEnd) => {
       if (callEnd.id == this.callData?.id && callEnd?.from?.id == this.callData?.from?.id && callEnd?.to?.id == this.callData?.to?.id) {
         this.stop();
       }
     });
-
-    if (this.data.type == 'call') {
-
-      this.callService.call(String(this.data.user?.id), String(Number(this.data.video))).subscribe((cal)=> {
-        this.callData = plainToClass(Call, cal);
-      });
-
-      this.onAcceptSubscription = this.socketService.onAccept.subscribe((accept) => {
-        this.accepted = true;
-        this.acceptData = accept;
-        if (accept.id == this.callData?.id && accept?.from?.id == this.callData?.from?.id && accept?.to?.id == this.callData?.to?.id) {
-            (async ()=>{
-              await this.webRtcCallService.init(
-                this.callData,
-                this.acceptData
-              );
-              await this.webRtcCallService.offer();
-            })();
-        }
-      });
-    }
-
-    if (this.data.type == 'accept') {
-      this.callData = this.data.payload;
-      this.onOfferSubscription = this.socketService.onOffer.subscribe((data) => {
-        (async ()=>{
-          await this.webRtcCallService.init(
-            this.callData,
-            this.acceptData
-          );
-          await this.webRtcCallService.answer(data.offer);
-        })();
-      });
-    }
   }
 
-  public accept() {
+  private async initTypeCall() {
+    this.callService.call(String(this.data.user?.id), String(Number(this.data.video))).subscribe((cal)=> {
+      this.callData = plainToClass(Call, cal);
+    });
+
+    this.onAcceptSubscription = this.socketService.onAccept.subscribe((accept) => {
+      this.accepted = true;
+      this.acceptData = accept;
+      if (accept.id == this.callData?.id && accept?.from?.id == this.callData?.from?.id && accept?.to?.id == this.callData?.to?.id) {
+        this.webRtcCallService.init(this.callData, this.acceptData);
+      }
+    });
+  }
+
+  private initTypeAccept() {
+    this.callData = this.data.payload;
+  }
+
+  public async accept() {
     this.accepted = true;
+    this.webRtcCallService.init(this.callData, this.acceptData);
     this.callService.accept(String(this.data.user?.id), String(this.callData?.id))
       .subscribe((res)=> {
         this.acceptData = plainToClass(Call, res);
@@ -130,50 +117,20 @@ export class CallComponent implements OnDestroy, AfterViewInit, OnInit {
     return this.accepted;
   }
 
-  public toggleLocalStreamAudio() {
+  public toggleLocalStream(type: 'audio'|'video') {
     const conf = this.webRtcCallService.getLocalConfig();
-    // @ts-ignore
-    conf.audio = !conf?.audio;
-    this.webRtcCallService.updateLocalTracks(conf)
-  }
-
-  public toggleLocalStreamVideo() {
-    const conf = this.webRtcCallService.getLocalConfig();
-    // @ts-ignore
-    conf.video = !conf?.video;
-    this.webRtcCallService.updateLocalTracks(conf)
-  }
-
-  public toggleRemoteStreamAudio() {
-    const conf = this.webRtcCallService.getRemoteConfig();
-    // @ts-ignore
-    conf.audio = !conf?.audio;
-    this.webRtcCallService.updateRemoteTracks(conf)
-  }
-
-  public toggleRemoteStreamVideo() {
-    const conf = this.webRtcCallService.getRemoteConfig();
-    // @ts-ignore
-    conf.video = !conf?.video;
-    this.webRtcCallService.updateRemoteTracks(conf)
-  }
-
-  stop() {
-    if (!this.closed) {
-      this.webRtcCallService.stop();
-      if (this.data.user) {
-        this.callService.close(String(this.data.user?.id), String(this.callData?.id))
-          .subscribe((res) =>{});
-      }
-      this.onOfferSubscription?.unsubscribe();
-      this.onAcceptSubscription?.unsubscribe();
-      this.onEndCallSubscription?.unsubscribe();
-      setTimeout(()=>{
-        this.close();
-      });
+    if (conf) {
+      conf[type] = !conf[type];
+      this.webRtcCallService.updateLocalTracks(conf)
     }
+  }
 
-    this.closed = true;
+  public toggleRemoteStream(type: 'audio'|'video') {
+    const conf = this.webRtcCallService.getRemoteConfig();
+    if (conf) {
+      conf[type] = !conf[type];
+      this.webRtcCallService.updateRemoteTracks(conf)
+    }
   }
 
   moveSmallVideo(e:any){
@@ -186,11 +143,36 @@ export class CallComponent implements OnDestroy, AfterViewInit, OnInit {
     this.smallVideoPosition.originLeft = this.smallVideoPosition.left;
   }
 
-  ngOnDestroy() {
-    this.stop();
-    this.localStream = undefined;
+  stop(){
+
+    if (this.stopped) {
+      return;
+    }
+    this.stopped = true;
+
+    this.webRtcCallService.stop();
+
+    if (this.data.user) {
+      this.callService.close(String(this.data.user?.id), String(this.callData?.id))
+        .subscribe((res) =>{});
+    }
+
+    this.onAcceptSubscription?.unsubscribe();
+    this.onEndCallSubscription?.unsubscribe();
+
+    setTimeout(()=>{
+      this.dialogRef.close();
+    },2);
+
     this.callData = undefined;
     this.acceptData = undefined;
     this.accepted = false;
   }
+
+  @HostListener('window:unload', ['$event'])
+  ngOnDestroy() {
+    this.stop();
+    this.stopped = false;
+  }
+
 }

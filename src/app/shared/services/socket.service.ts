@@ -19,9 +19,7 @@ export class SocketService{
   public onRead = new Subject<ReadEventData>();
   public onCall = new Subject<Call>();
   public onAccept = new Subject<Call>();
-  public onOffer = new Subject<OfferEventData>();
-  public onAnswer = new Subject<AnswerEventData>();
-  public onCandidate = new Subject<any>();
+  public onSignal = new Subject<any>();
   public onCallEnd = new Subject<Call>();
   private socketUrl = environment.SOCKET_URL;
   constructor(
@@ -64,16 +62,8 @@ export class SocketService{
             this.onAccept.next(plainToClass(Call, data));
           });
 
-          this.socket.on('offer', (data: any) => {
-            this.onOffer.next(plainToClass(OfferEventData, data));
-          });
-
-          this.socket.on('answer', (data: any) => {
-            this.onAnswer.next(plainToClass(AnswerEventData, data));
-          });
-
-          this.socket.on('candidate', (data: any) => {
-            this.onCandidate.next(data);
+          this.socket.on('signal', (data: any) => {
+            this.onSignal.next(data);
           });
 
           this.socket.on('call-end', (data: any) => {
